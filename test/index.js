@@ -2,7 +2,8 @@ import { assert } from 'chai';
 import { randomValue as random, randomStringArray } from '../helper';
 import {
     bindFunction,
-    sumWithDefaults,
+    sumWithDefaultsOne,
+    sumWithDefaultsTwo,
     returnArgumentsArray,
     returnCounter,
     returnFirstArgument,
@@ -23,14 +24,14 @@ describe('ДЗ 1 - функции', () => {
         it('должна возвращать сумму переданных аргументов', () => {
             let valueA = random('number');
             let valueB = random('number');
-            let result = sumWithDefaults(valueA, valueB);
+            let result = sumWithDefaultsOne(valueA, valueB);
 
             assert.strictEqual(result, valueA + valueB);
         });
 
         it('значение по умолчанию второго аргумента должно быть 100', () => {
             let value = random('number');
-            let result = sumWithDefaults(value);
+            let result = sumWithDefaultsTwo(value);
 
             assert.strictEqual(result, value + 100);
         });
