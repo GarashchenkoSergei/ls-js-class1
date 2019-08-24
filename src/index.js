@@ -49,8 +49,14 @@ function sumWithDefaultsTwo(a) {
    returnFnResult(() => 'привет') вернет 'привет'
  */
 function returnFnResult(fn) {
+    var functionResult = fn();
 
+    return functionResult;
 }
+
+returnFnResult(function() {
+    return 40 + 10;
+});
 
 /*
  Задание 4:
@@ -65,7 +71,12 @@ function returnFnResult(fn) {
    console.log(f()); // выведет 12
    console.log(f()); // выведет 13
  */
-function returnCounter(number) {
+function returnCounter(number = 0) {
+    let increment = 1;
+    
+    return function() {
+        return number + increment++;
+    };
 }
 
 /*
@@ -77,7 +88,11 @@ function returnCounter(number) {
  Пример:
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
+
 function returnArgumentsArray() {
+    var args = Array.prototype.slice.call(arguments);
+    
+    return args;
 }
 
 /*
@@ -95,8 +110,22 @@ function returnArgumentsArray() {
 
    console.log(newSum()) выведет 6
  */
-function bindFunction(fn) {
+
+function bindFunction(innerFunc, ...args) {
+    var functionResult = innerFunc(args);
+
+    return functionResult;
 }
+
+bindFunction(function(funcArgs) {
+    var sum = 0;
+    
+    for (let i = 0; i < funcArgs.length; i++) {
+        sum += funcArgs[i];
+    }
+
+    return sum;
+}, 1, 2, 3, 4, 5);
 
 export {
     returnFirstArgument,

@@ -1,1 +1,3 @@
-## Garashchenko Sergei homework_1
+## Garashchenko Sergei
+
+### homework_1
