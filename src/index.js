@@ -32,7 +32,7 @@ function returnFirstArgument(anyParameter) {
  Пример:
    sumWithDefaults(10) вернет 110
  */
-function sumWithDefaultsOne(a, b) {
+function sumWithDefaultsOne(a, b = 100) {
     return a + b;
 }
 
@@ -112,20 +112,21 @@ function returnArgumentsArray() {
  */
 
 function bindFunction(innerFunc, ...args) {
-    var functionResult = innerFunc(args);
 
-    return functionResult;
+    return innerFunc(args);
 }
 
-bindFunction(function(funcArgs) {
+var innerFunction = function(args) {
     var sum = 0;
     
-    for (let i = 0; i < funcArgs.length; i++) {
-        sum += funcArgs[i];
+    for (let i = 0; i < args.length; i++) {
+        sum += args[i];
     }
 
     return sum;
-}, 1, 2, 3, 4, 5);
+}
+
+bindFunction(innerFunction, 1, 2, 3, 4, 5);
 
 export {
     returnFirstArgument,
