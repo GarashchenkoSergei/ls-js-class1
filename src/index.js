@@ -111,12 +111,7 @@ function returnArgumentsArray() {
    console.log(newSum()) выведет 6
  */
 
-function bindFunction(innerFunc, ...args) {
-
-    return innerFunc(args);
-}
-
-var innerFunction = function(args) {
+function sumAll(args) {
     var sum = 0;
     
     for (let i = 0; i < args.length; i++) {
@@ -126,7 +121,15 @@ var innerFunction = function(args) {
     return sum;
 }
 
-bindFunction(innerFunction, 1, 2, 3, 4, 5);
+function bindFunction(fn, ...args) {
+    var bind = fn.bind(null, args);
+    
+    return bind;
+}
+
+var newSum = bindFunction(sumAll, 1, 2, 3, 4, 5);
+
+console.log(newSum()); // выводит 15
 
 export {
     returnFirstArgument,
