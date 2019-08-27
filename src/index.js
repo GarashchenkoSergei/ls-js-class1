@@ -111,23 +111,23 @@ function returnArgumentsArray() {
    console.log(newSum()) выведет 6
  */
 
-function sumAll(args) {
+function sumAll() {
     var sum = 0;
     
-    for (let i = 0; i < args.length; i++) {
-        sum += args[i];
+    for (let i = 0; i < arguments.length; i++) {
+        sum += arguments[i];
     }
 
     return sum;
 }
 
 function bindFunction(fn, ...args) {
-    var bind = fn.bind(null, args);
+    var bind = fn.bind(null, ...args);
     
     return bind;
 }
 
-var newSum = bindFunction(sumAll, 1, 2, 3, 4, 5);
+var newSum = bindFunction(sumAll, 1, 2, 3, 4, 5, 6, 7);
 
 console.log(newSum()); // выводит 15
 
