@@ -6,8 +6,27 @@
  Напишите аналог встроенного метода forEach для работы с массивами
  Посмотрите как работает forEach и повторите это поведение для массива, который будет передан в параметре array
  */
-function forEach(array, fn) {
+var numbers = [1, 2, 3, 4, 5];
+
+function forEachFunc(item, index, array) {
+    const result = {
+        value: item * item,
+        index: index,
+        array: array
+    }
+
+    return result;
 }
+
+function forEach(array, fn) {
+    for (let i = 0; i < array.length; i++) {
+        let arrItem = array[i];
+        
+        fn(arrItem, [i], array);
+    }
+}
+
+forEach(numbers, forEachFunc);
 
 /*
  Задание 2:
@@ -15,8 +34,29 @@ function forEach(array, fn) {
  Напишите аналог встроенного метода map для работы с массивами
  Посмотрите как работает map и повторите это поведение для массива, который будет передан в параметре array
  */
-function map(array, fn) {
+function mapFunc(item, index, array) {
+    const result = {
+        value: item * 50,
+        index: index,
+        array: array
+    }
+
+    return result.value;
 }
+
+function map(array, fn) {
+    var newNumbers = [];
+
+    for (let i = 0; i < array.length; i++) {
+        let arrItem = array[i];
+        
+        newNumbers.push(fn(arrItem, [i], array));
+    }
+
+    return newNumbers;
+}
+
+map(numbers, mapFunc);
 
 /*
  Задание 3:
@@ -24,8 +64,45 @@ function map(array, fn) {
  Напишите аналог встроенного метода reduce для работы с массивами
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
-function reduce(array, fn, initial) {
+function reduceFunc(previousValue, item, index, array) {
+    const result = {
+        previousValue: previousValue,
+        value: item,
+        index: index,
+        array: array
+    }
+
+    return result.previousValue + result.value;
 }
+
+function reduce(array, fn, initial) {
+    var initialValue;
+    var previousValue;
+    var newArray;
+
+    if (initial) {
+        initialValue = initial;
+    } else {
+        initialValue = array[0];
+        newArray = array.slice(1);
+        array = newArray;
+    }
+
+    for (let i = 0; i < array.length; i++) {
+        let currentItem = array[i];
+        
+        if (previousValue == undefined) {
+            previousValue = fn(initialValue, currentItem, [i], array);
+        } else {
+            previousValue = fn(previousValue, currentItem, [i], array);
+        }
+    }
+
+    return previousValue;
+}
+
+// console.log(reduce(numbers, reduceFunc, 3));
+// console.log(reduce(numbers, reduceFunc));
 
 /*
  Задание 4:
@@ -35,8 +112,24 @@ function reduce(array, fn, initial) {
  Пример:
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
-function upperProps(obj) {
+var client = {
+    name: 'Сергей',
+    lastName: 'Петров'
 }
+
+function upperProps(obj) {
+    var objArray = Object.getOwnPropertyNames(obj);
+
+    for (let i = 0; i < objArray.length; i++) {
+        var upperCaseName = objArray[i].toUpperCase();
+
+        objArray[i] = upperCaseName;
+    }
+
+    return objArray;
+}
+
+// console.log(upperProps(client));
 
 /*
  Задание 5 *:
