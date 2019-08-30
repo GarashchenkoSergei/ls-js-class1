@@ -8,15 +8,15 @@
  */
 var numbers = [1, 2, 3, 4, 5];
 
-function forEachFunc(item, index, array) {
-    const result = {
-        value: item * item,
-        index: index,
-        array: array
-    }
+// function forEachFunc(item, index, array) {
+//     const result = {
+//         value: item * item,
+//         index: index,
+//         array: array
+//     }
 
-    return result;
-}
+//     return result;
+// }
 
 function forEach(array, fn) {
     for (let i = 0; i < array.length; i++) {
@@ -26,7 +26,7 @@ function forEach(array, fn) {
     }
 }
 
-forEach(numbers, forEachFunc);
+// forEach(numbers, forEachFunc);
 
 /*
  Задание 2:
@@ -34,15 +34,15 @@ forEach(numbers, forEachFunc);
  Напишите аналог встроенного метода map для работы с массивами
  Посмотрите как работает map и повторите это поведение для массива, который будет передан в параметре array
  */
-function mapFunc(item, index, array) {
-    const result = {
-        value: item * 50,
-        index: index,
-        array: array
-    }
+// function mapFunc(item, index, array) {
+//     const result = {
+//         value: item * 50,
+//         index: index,
+//         array: array
+//     }
 
-    return result.value;
-}
+//     return result.value;
+// }
 
 function map(array, fn) {
     var newNumbers = [];
@@ -56,7 +56,7 @@ function map(array, fn) {
     return newNumbers;
 }
 
-map(numbers, mapFunc);
+// map(numbers, mapFunc);
 
 /*
  Задание 3:
@@ -64,16 +64,16 @@ map(numbers, mapFunc);
  Напишите аналог встроенного метода reduce для работы с массивами
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
-function reduceFunc(previousValue, item, index, array) {
-    const result = {
-        previousValue: previousValue,
-        value: item,
-        index: index,
-        array: array
-    }
+// function reduceFunc(previousValue, item, index, array) {
+//     const result = {
+//         previousValue: previousValue,
+//         value: item,
+//         index: index,
+//         array: array
+//     }
 
-    return result.previousValue + result.value;
-}
+//     return result.previousValue + result.value;
+// }
 
 function reduce(array, fn, initial) {
     var initialValue;
@@ -101,7 +101,7 @@ function reduce(array, fn, initial) {
     return previousValue;
 }
 
-reduce(numbers, reduceFunc, 3);
+// reduce(numbers, reduceFunc, 3);
 
 /*
  Задание 4:
