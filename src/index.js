@@ -101,8 +101,7 @@ function reduce(array, fn, initial) {
     return previousValue;
 }
 
-// console.log(reduce(numbers, reduceFunc, 3));
-// console.log(reduce(numbers, reduceFunc));
+reduce(numbers, reduceFunc, 3);
 
 /*
  Задание 4:
@@ -112,11 +111,6 @@ function reduce(array, fn, initial) {
  Пример:
    upperProps({ name: 'Сергей', lastName: 'Петров' }) вернет ['NAME', 'LASTNAME']
  */
-var client = {
-    name: 'Сергей',
-    lastName: 'Петров'
-}
-
 function upperProps(obj) {
     var objArray = Object.getOwnPropertyNames(obj);
 
@@ -128,8 +122,6 @@ function upperProps(obj) {
 
     return objArray;
 }
-
-// console.log(upperProps(client));
 
 /*
  Задание 5 *:
