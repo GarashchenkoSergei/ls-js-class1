@@ -55,13 +55,11 @@ function reduce(array, fn, initial) {
     }
 
     for (let i = 0; i < array.length; i++) {
-        let currentItem = array[i];
-        
         if (previousValue == undefined) {
-            previousValue = fn(initialValue, currentItem, [i], array);
-        } else {
-            previousValue = fn(previousValue, currentItem, [i], array);
+            previousValue = initialValue;
         }
+
+        previousValue = fn(previousValue, array[i], [i], array);
     }
 
     return previousValue;
