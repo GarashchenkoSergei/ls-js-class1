@@ -16,7 +16,35 @@
    isAllTrue([1, 2, 3, 4, 5], n => n < 10) // вернет true
    isAllTrue([100, 2, 3, 4, 5], n => n < 10) // вернет false
  */
+
 function isAllTrue(array, fn) {
+    let compareResult;
+
+    try {
+        if (!Array.isArray(array) || array.length == 0) {
+            throw new Error('empty array');
+        }
+        if (typeof fn !== 'function') {
+            throw new Error('fn is not a function');
+        }
+
+        for (let i = 0; i < array.length; i++) {
+            compareResult = fn(array[i]);
+    
+            if (compareResult == false) {
+                break;
+            }
+        }
+
+        if (compareResult == false) {
+            return false;
+        }
+
+        return true;
+
+    } catch (e) {
+        alert(e.message);
+    }
 }
 
 /*
@@ -35,7 +63,35 @@ function isAllTrue(array, fn) {
    isSomeTrue([1, 2, 30, 4, 5], n => n > 20) // вернет true
    isSomeTrue([1, 2, 3, 4, 5], n => n > 20) // вернет false
  */
+
 function isSomeTrue(array, fn) {
+    let compareResult;
+
+    try {
+        if (!Array.isArray(array) || array.length == 0) {
+            throw new Error('empty array');
+        }
+        if (typeof fn !== 'function') {
+            throw new Error('fn is not a function');
+        }
+
+        for (let i = 0; i < array.length; i++) {
+            compareResult = fn(array[i]);
+
+            if (compareResult == true) {
+                break;
+            }
+        }
+
+        if (compareResult == true) {
+            return true;
+        }
+
+        return false;
+        
+    } catch (e) {
+        alert(e.message);
+    }
 }
 
 /*
@@ -49,7 +105,26 @@ function isSomeTrue(array, fn) {
  3.3: Необходимо выбрасывать исключение в случаях:
    - fn не является функцией (с текстом "fn is not a function")
  */
-function returnBadArguments(fn) {
+
+function returnBadArguments(fn, ...args) {
+    let newArray = [];
+
+    try {
+        if (typeof fn !== 'function') {
+            throw new Error('fn is not a function');
+        }
+
+        for (let i = 0; i < args.length; i++) {
+            if (fn(args[i]) == false) {
+                newArray.push(args[i]);
+            }
+        }
+
+        return newArray;
+
+    } catch (e) {
+        alert(e.message);
+    }
 }
 
 /*
@@ -69,8 +144,20 @@ function returnBadArguments(fn) {
    - number не является числом (с текстом "number is not a number")
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
-function calculator() {
+function calculator(number = 0) {
+    var calc = {
+        sum: function(...rest) {
+            console.log(number);
+            console.log(rest);
+            return number + rest;
+        }
+    };
+
+    console.log(calc.sum(5, 6, 7));
+    return calc;
 }
+
+console.log(calculator(50));
 
 /* При решении задач, пострайтесь использовать отладчик */
 
