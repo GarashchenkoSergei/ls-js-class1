@@ -145,19 +145,68 @@ function returnBadArguments(fn, ...args) {
    - какой-либо из аргументов div является нулем (с текстом "division by 0")
  */
 function calculator(number = 0) {
-    var calc = {
-        sum: function(...rest) {
-            console.log(number);
-            console.log(rest);
-            return number + rest;
+    try {
+        if (!isFinite(number)) {
+            throw new Error('number is not a number');
         }
-    };
+        var calc = {
+            sum: function(...args) {
+                let result = 0;
 
-    console.log(calc.sum(5, 6, 7));
-    return calc;
+                for (let i = 0; i < args.length; i++) {
+                    result = number += args[i];
+                }
+                
+                return result;
+            },
+            dif: function(...args) {
+                let result = 0;
+
+                for (let i = 0; i < args.length; i++) {
+                    result = number -= args[i];
+                }
+                
+                return result;
+            },
+            div: function(...args) {
+                let error = false;
+                let result;
+
+                for (let i = 0; i < args.length; i++) {
+                    try {
+                        if (args[i] == 0) {
+                            error = true;
+
+                            throw new Error('division by 0');
+                        }
+                    } catch (e) {
+                        alert(e.message);
+                    }
+                    if (error == false) {
+                        result = number /= args[i];
+                    } else {
+                        result = undefined;
+                    }
+                }
+
+                return result;
+            },
+            mul: function(...args) {
+                let result = 0;
+
+                for (let i = 0; i < args.length; i++) {
+                    result = number *= args[i];
+                }
+                
+                return result;
+            }
+        };
+
+        return calc;
+    } catch (e) {
+        alert(e.message);
+    }
 }
-
-console.log(calculator(50));
 
 /* При решении задач, пострайтесь использовать отладчик */
 
