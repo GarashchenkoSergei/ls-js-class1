@@ -127,46 +127,18 @@ function deleteTextNodes(where) {
  */
 
 function deleteTextNodesRecursive(where) {
-    let nodesArray = [];
-
-    for (let i = 0; i < where.childNodes.length; i++) {
-        console.log(where.childNodes[i].nodeType);
+    for (let i = (where.childNodes.length - 1); i >= 0; i--) {
         if (where.childNodes[i].nodeType === 3) {
-            console.log('delete');
             where.removeChild(where.childNodes[i]);
         } else {
-            console.log('push');  
-            nodesArray.push(where.childNodes[i].childNodes);
+            deleteTextNodesRecursive(where.childNodes[i]);
         }
-        // if (where.childNodes[i]) {
-        //     nodesArray.push(where.childNodes[i].childNodes);
-        // }
-    }
-
-    for (let i = 0; i < nodesArray.length; i++) {
-        console.log(nodesArray[i]);  
     }
 }
 
 deleteTextNodesRecursive(document.body);
 
-function testFunc(array) {
-    for (let i = (array.length - 1); i >= 0; i--) {
-
-        if ((array[i] % 3) == 0) {
-            array[i]++;
-        } else {
-            array.splice(i, 1);
-        }
-
-    }
-// [1, 4, 5]
-// [1, 5, 7]
-// [1, 4, 5, 7]
-    return array;
-}
-
-console.log(testFunc([1, 2, 3, 4, 5, 6]));
+// [text, div.wrapper, text, div.class-1, text, div.class-2, text, div.class-3, text]
 
 /*
  Задание 7 *:
