@@ -44,6 +44,7 @@ const addButton = homeworkContainer.querySelector('#add-button');
 // таблица со списком cookie
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
+// достаем cookie из браузера и вкладываем их в объект
 const cookies = document.cookie.split('; ').reduce((prev, current) => {
     const [name, value] = current.split('=');
 
@@ -52,6 +53,7 @@ const cookies = document.cookie.split('; ').reduce((prev, current) => {
     return prev;
 }, {});
 
+// загружаем контент (cookies и их значения) на страницу в виде таблицы
 document.addEventListener('DOMContentLoaded', () => {
     for (let cookie in cookies) {
         if (cookies.hasOwnProperty(cookie)) {
@@ -81,6 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+// добавляем фильтр на input. Сравниваем значение в input и значения отображенные в DOM (cookie не трогаем)
 filterNameInput.addEventListener('keyup', function() {
     let filter = filterNameInput.value.toUpperCase();
     let names = document.getElementsByClassName('table__row-name');
@@ -96,6 +99,7 @@ filterNameInput.addEventListener('keyup', function() {
     }
 });
 
+// обработчик добавления новых куки. Если cookie уже есть, то перезаписывает его значение.
 addButton.addEventListener('click', () => {
     addCookie(addNameInput.value, addValueInput.value);
     document.location.reload();
