@@ -32,6 +32,7 @@
    homeworkContainer.appendChild(newDiv);
  */
 const homeworkContainer = document.querySelector('#homework-container');
+
 // текстовое поле для фильтрации cookie
 const filterNameInput = homeworkContainer.querySelector('#filter-name-input');
 // текстовое поле с именем cookie
@@ -43,10 +44,74 @@ const addButton = homeworkContainer.querySelector('#add-button');
 // таблица со списком cookie
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
+const cookies = document.cookie.split('; ').reduce((prev, current) => {
+    const [name, value] = current.split('=');
+
+    prev[name] = value;
+
+    return prev;
+}, {});
+
+document.addEventListener('DOMContentLoaded', () => {
+    for (let cookie in cookies) {
+        if (cookies.hasOwnProperty(cookie)) {
+            const tableRow = document.createElement('tr');
+            const tableCellName = document.createElement('th');
+            const tableCellValue = document.createElement('th');
+            const tableCellDeleteBtn = document.createElement('th');
+            const tableDeleteBtn = document.createElement('button');
+
+            tableRow.classList.add('table__row');
+            tableCellName.classList.add('table__row-name');
+
+            tableDeleteBtn.addEventListener('click', () => {
+                tableDeleteBtn.closest('.table__row').remove();
+                document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`;
+            })
+        
+            tableCellDeleteBtn.appendChild(tableDeleteBtn);
+            tableRow.appendChild(tableCellName);
+            tableRow.appendChild(tableCellValue);
+            tableRow.appendChild(tableCellDeleteBtn);
+            tableDeleteBtn.textContent = 'удалить';
+            tableCellName.textContent = cookie;
+            tableCellValue.textContent = cookies[cookie];
+            listTable.appendChild(tableRow);
+        }
+    }
+});
+
 filterNameInput.addEventListener('keyup', function() {
-    // здесь можно обработать нажатия на клавиши внутри текстового поля для фильтрации cookie
+    let filter = filterNameInput.value.toUpperCase();
+    let names = document.getElementsByClassName('table__row-name');
+    
+    for (let i = 0; i < names.length; i++) {
+        names[i].parentNode.style.display = 'none';
+
+        let txtValue = names[i].textContent || names[i].innerText;
+
+        if (txtValue.toUpperCase().indexOf(filter) > -1 ) {
+            names[i].parentNode.style.display = '';
+        }
+    }
 });
 
 addButton.addEventListener('click', () => {
-    // здесь можно обработать нажатие на кнопку "добавить cookie"
-});
+    addCookie(addNameInput.value, addValueInput.value);
+    document.location.reload();
+}); 
+
+function addCookie(key, value) {
+    if (!key || !value) {
+        return;
+    }
+    for (let cookie in cookies) {
+        if (cookies.hasOwnProperty(cookie)) {
+            if (cookie !== key) {
+                return document.cookie = `${key}=${value}`;
+            }
+            
+            return document.cookie = `${cookie}=${value}`;
+        }
+    }
+}
