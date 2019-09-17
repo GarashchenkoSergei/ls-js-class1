@@ -111,10 +111,6 @@ function addCookie(key, value) {
     }
     for (let cookie in cookies) {
         if (cookies.hasOwnProperty(cookie)) {
-            if (cookie !== key) {
-                return document.cookie = `${key}=${value}`;
-            }
-            
             return document.cookie = `${cookie}=${value}`;
         }
     }
