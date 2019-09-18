@@ -1,32 +1,26 @@
 /*
  ДЗ 7 - Создать редактор cookie с возможностью фильтрации
-
  7.1: На странице должна быть таблица со списком имеющихся cookie. Таблица должна иметь следующие столбцы:
    - имя
    - значение
    - удалить (при нажатии на кнопку, выбранная cookie удаляется из браузера и таблицы)
-
  7.2: На странице должна быть форма для добавления новой cookie. Форма должна содержать следующие поля:
    - имя
    - значение
    - добавить (при нажатии на кнопку, в браузер и таблицу добавляется новая cookie с указанным именем и значением)
-
  Если добавляется cookie с именем уже существующей cookie, то ее значение в браузере и таблице должно быть обновлено
-
  7.3: На странице должно быть текстовое поле для фильтрации cookie
  В таблице должны быть только те cookie, в имени или значении которых, хотя бы частично, есть введенное значение
  Если в поле фильтра пусто, то должны выводиться все доступные cookie
  Если добавляемая cookie не соответсвует фильтру, то она должна быть добавлена только в браузер, но не в таблицу
  Если добавляется cookie, с именем уже существующей cookie и ее новое значение не соответствует фильтру,
  то ее значение должно быть обновлено в браузере, а из таблицы cookie должна быть удалена
-
  Запрещено использовать сторонние библиотеки. Разрешено пользоваться только тем, что встроено в браузер
  */
 
 /*
  homeworkContainer - это контейнер для всех ваших домашних заданий
  Если вы создаете новые html-элементы и добавляете их на страницу, то добавляйте их только в этот контейнер
-
  Пример:
    const newDiv = document.createElement('div');
    homeworkContainer.appendChild(newDiv);
@@ -57,37 +51,72 @@ const cookies = document.cookie.split('; ').reduce((prev, current) => {
 document.addEventListener('DOMContentLoaded', () => {
     for (let cookie in cookies) {
         if (cookies.hasOwnProperty(cookie)) {
-            const tableRow = document.createElement('tr');
-            const tableCellName = document.createElement('th');
-            const tableCellValue = document.createElement('th');
-            const tableCellDeleteBtn = document.createElement('th');
-            const tableDeleteBtn = document.createElement('button');
-
-            tableRow.classList.add('table__row');
-            tableCellName.classList.add('table__row-name');
-
-            tableDeleteBtn.addEventListener('click', () => {
-                tableDeleteBtn.closest('.table__row').remove();
-                document.cookie = `${cookie}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`;
-            })
-        
-            tableCellDeleteBtn.appendChild(tableDeleteBtn);
-            tableRow.appendChild(tableCellName);
-            tableRow.appendChild(tableCellValue);
-            tableRow.appendChild(tableCellDeleteBtn);
-            tableDeleteBtn.textContent = 'удалить';
-            tableCellName.textContent = cookie;
-            tableCellValue.textContent = cookies[cookie];
-            listTable.appendChild(tableRow);
+            addTableRow(cookie, cookies[cookie]);
         }
     }
 });
 
+let names = document.getElementsByClassName('table__row-name');
+let values = document.getElementsByClassName('table__row-value');
+
+// обработчик добавления новых куки. Если cookie уже есть, то перезаписывает его значение.
+addButton.addEventListener('click', () => {
+    addCookie(addNameInput.value, addValueInput.value);
+
+    for (let i = 0; i < names.length; i++) {
+        if (names[i].textContent == addNameInput.value) {
+            names[i].nextElementSibling.textContent = addValueInput.value;
+        
+            return;
+        }
+    }
+
+    addTableRow(addNameInput.value, addValueInput.value);
+});
+
+function addCookie(key, value) {
+    if (!key || !value) {
+        return;
+    }
+
+    return document.cookie = `${key}=${value}`;
+}
+
+// добавление строки в таблице
+function addTableRow(name, value) {
+    if (name && value) {
+        const tableRow = document.createElement('tr');
+        const tableCellName = document.createElement('th');
+        const tableCellValue = document.createElement('th');
+        const tableCellDeleteBtn = document.createElement('th');
+        const tableDeleteBtn = document.createElement('button');
+
+        tableRow.classList.add('table__row');
+        tableCellName.classList.add('table__row-name');
+        tableCellValue.classList.add('table__row-value');
+
+        tableDeleteBtn.addEventListener('click', () => {
+            tableDeleteBtn.closest('.table__row').remove();
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC`;
+        })
+
+        tableCellDeleteBtn.appendChild(tableDeleteBtn);
+        tableRow.appendChild(tableCellName);
+        tableRow.appendChild(tableCellValue);
+        tableRow.appendChild(tableCellDeleteBtn);
+        tableDeleteBtn.textContent = 'удалить';
+        tableCellName.textContent = name;
+        tableCellValue.textContent = value;
+
+        listTable.appendChild(tableRow);
+    }
+}
+
 // добавляем фильтр на input. Сравниваем значение в input и значения отображенные в DOM (cookie не трогаем)
 filterNameInput.addEventListener('keyup', function() {
     let filter = filterNameInput.value.toUpperCase();
-    let names = document.getElementsByClassName('table__row-name');
-    
+    // let filterStatus = false;
+
     for (let i = 0; i < names.length; i++) {
         names[i].parentNode.style.display = 'none';
 
@@ -98,20 +127,3 @@ filterNameInput.addEventListener('keyup', function() {
         }
     }
 });
-
-// обработчик добавления новых куки. Если cookie уже есть, то перезаписывает его значение.
-addButton.addEventListener('click', () => {
-    addCookie(addNameInput.value, addValueInput.value);
-    document.location.reload();
-}); 
-
-function addCookie(key, value) {
-    if (!key || !value) {
-        return;
-    }
-    for (let cookie in cookies) {
-        if (cookies.hasOwnProperty(cookie)) {
-            return document.cookie = `${cookie}=${value}`;
-        }
-    }
-}
