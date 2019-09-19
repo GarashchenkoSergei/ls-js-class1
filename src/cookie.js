@@ -115,15 +115,18 @@ function addTableRow(name, value) {
 // добавляем фильтр на input. Сравниваем значение в input и значения отображенные в DOM (cookie не трогаем)
 filterNameInput.addEventListener('keyup', function() {
     let filter = filterNameInput.value.toUpperCase();
-    // let filterStatus = false;
+    let rows = document.getElementsByClassName('table__row');
 
-    for (let i = 0; i < names.length; i++) {
-        names[i].parentNode.style.display = 'none';
-
-        let txtValue = names[i].textContent || names[i].innerText;
-
-        if (txtValue.toUpperCase().indexOf(filter) > -1 ) {
-            names[i].parentNode.style.display = '';
+    for (let i = 0; i < rows.length; i++) {
+        let [elem1, elem2, elem3] = rows[i].children;
+        
+        let txtValue1 = elem1.textContent || elem1.innerText;
+        let txtValue2 = elem2.textContent || elem2.innerText;
+            
+        if ( (txtValue1.toUpperCase().indexOf(filter) > -1) || (txtValue2.toUpperCase().indexOf(filter) > -1) ) {
+            rows[i].style.display = '';
+        } else {
+            rows[i].style.display = 'none';
         }
     }
 });
