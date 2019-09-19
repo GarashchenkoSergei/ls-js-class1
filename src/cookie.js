@@ -114,19 +114,23 @@ function addTableRow(name, value) {
 
 // добавляем фильтр на input. Сравниваем значение в input и значения отображенные в DOM (cookie не трогаем)
 filterNameInput.addEventListener('keyup', function() {
-    let filter = filterNameInput.value.toUpperCase();
-    let rows = document.getElementsByClassName('table__row');
+    let filter = filterNameInput.value;
+    
+    filterFunc(filter);
+});
 
-    for (let i = 0; i < rows.length; i++) {
-        let [elem1, elem2, elem3] = rows[i].children;
-        
-        let txtValue1 = elem1.textContent || elem1.innerText;
-        let txtValue2 = elem2.textContent || elem2.innerText;
-            
-        if ( (txtValue1.toUpperCase().indexOf(filter) > -1) || (txtValue2.toUpperCase().indexOf(filter) > -1) ) {
-            rows[i].style.display = '';
-        } else {
-            rows[i].style.display = 'none';
+function filterFunc(filter) {
+    let [table] = document.getElementsByTagName('tbody');
+
+    while (table.firstChild) {
+        table.removeChild(table.firstChild);
+    }
+
+    for (let cookie in cookies) {
+        if (cookies.hasOwnProperty(cookie)) {
+            if ( (cookie.indexOf(filter) > -1) || (cookies[cookie].indexOf(filter) > -1) ) {
+                addTableRow(cookie, cookies[cookie]);
+            }
         }
     }
-});
+}
